@@ -91,9 +91,7 @@ type Config struct {
 
 	// Misc
 	CleanEnabled  bool
-	ReportEnabled bool
 	ActionChannel int64 `valid:"channel,true"`
-	ReportChannel int64 `valid:"channel,true"`
 	ErrorChannel  int64 `valid:"channel,true"`
 	LogUnbans     bool
 	LogBans       bool
@@ -144,9 +142,7 @@ func (c *Config) ToModel() *models.ModerationConfig {
 		WarnMessage:            null.StringFrom(c.WarnMessage),
 
 		CleanEnabled:  null.BoolFrom(c.CleanEnabled),
-		ReportEnabled: null.BoolFrom(c.ReportEnabled),
 		ActionChannel: null.StringFrom(discordgo.StrID(c.ActionChannel)),
-		ReportChannel: null.StringFrom(discordgo.StrID(c.ReportChannel)),
 		ErrorChannel:  null.StringFrom(discordgo.StrID(c.ErrorChannel)),
 		LogUnbans:     null.BoolFrom(c.LogUnbans),
 		LogBans:       null.BoolFrom(c.LogBans),
@@ -161,7 +157,6 @@ func (c *Config) ToModel() *models.ModerationConfig {
 func configFromModel(model *models.ModerationConfig) *Config {
 	muteRole, _ := discordgo.ParseID(model.MuteRole.String)
 	actionChannel, _ := discordgo.ParseID(model.ActionChannel.String)
-	reportChannel, _ := discordgo.ParseID(model.ReportChannel.String)
 	errorChannel, _ := discordgo.ParseID(model.ErrorChannel.String)
 
 	return &Config{
@@ -203,9 +198,7 @@ func configFromModel(model *models.ModerationConfig) *Config {
 		WarnMessage:            model.WarnMessage.String,
 
 		CleanEnabled:  model.CleanEnabled.Bool,
-		ReportEnabled: model.ReportEnabled.Bool,
 		ActionChannel: actionChannel,
-		ReportChannel: reportChannel,
 		ErrorChannel:  errorChannel,
 		LogUnbans:     model.LogUnbans.Bool,
 		LogBans:       model.LogBans.Bool,

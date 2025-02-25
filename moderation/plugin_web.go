@@ -119,7 +119,6 @@ func (p *Plugin) LoadServerHomeWidget(w http.ResponseWriter, r *http.Request) (w
 	}
 
 	format := `<ul>
-	<li>Report command: %s</li>
 	<li>Clean command: %s</li>
 	<li>Giverole/Takerole commands: %s</li>
 	<li>Kick command: %s</li>
@@ -128,18 +127,17 @@ func (p *Plugin) LoadServerHomeWidget(w http.ResponseWriter, r *http.Request) (w
 	<li>Warning commands: %s</li>
 </ul>`
 
-	if config.ReportEnabled || config.CleanEnabled || config.GiveRoleCmdEnabled || config.ActionChannel != 0 ||
+	if config.CleanEnabled || config.GiveRoleCmdEnabled || config.ActionChannel != 0 ||
 		config.MuteEnabled || config.KickEnabled || config.BanEnabled || config.WarnCommandsEnabled {
 		templateData["WidgetEnabled"] = true
 	} else {
 		templateData["WidgetDisabled"] = true
 	}
 
-	templateData["WidgetBody"] = template.HTML(fmt.Sprintf(format, web.EnabledDisabledSpanStatus(config.ReportEnabled),
+	templateData["WidgetBody"] = template.HTML(fmt.Sprintf(format,
 		web.EnabledDisabledSpanStatus(config.CleanEnabled), web.EnabledDisabledSpanStatus(config.GiveRoleCmdEnabled),
 		web.EnabledDisabledSpanStatus(config.KickEnabled), web.EnabledDisabledSpanStatus(config.BanEnabled),
-		web.EnabledDisabledSpanStatus(config.MuteEnabled),
-		web.EnabledDisabledSpanStatus(config.WarnCommandsEnabled)))
+		web.EnabledDisabledSpanStatus(config.MuteEnabled), web.EnabledDisabledSpanStatus(config.WarnCommandsEnabled)))
 
 	return templateData, nil
 }

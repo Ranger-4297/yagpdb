@@ -131,14 +131,6 @@ the punishment, is an <a href="https://help.yagpdb.xyz/docs/reference/templates/
         </div>
         <hr />
 
-        {{checkbox "ReportEnabled" "report-enabled" "Enable report command?" .ModConfig.ReportEnabled}}
-        <p><code>(mention or prefix) report @user some reason</code><br />
-            Everyone can use this.<br />
-            Report will upload a log of the last 100 messages in the channel and send a message about it in the
-            report channel.
-        </p>
-        <hr />
-
         {{checkbox "LogUnbans" "log-unbans" "Log unban events in the modlog channel" .ModConfig.LogUnbans}}
         <p>For the author to show up when this is used you need to give the bot "audit log" permissions.</p>
         <hr />
@@ -157,13 +149,6 @@ the punishment, is an <a href="https://help.yagpdb.xyz/docs/reference/templates/
 
     </div>
     <div class="col-sm">
-        <div class="form-group">
-            <label>Channel to send messages for the mods/admins in (reports and such)</label>
-            <select class="form-control" name="ReportChannel" data-requireperms-send>
-                {{textChannelOptions .ActiveGuild.Channels .ModConfig.ReportChannel true "None"}}
-            </select>
-        </div>
-        <hr />
         {{checkbox "CleanEnabled" "clean-enabled" "Enable clean command?" .ModConfig.CleanEnabled}}
         <p>
             <code>(mention or prefix) clean NUM {@user <- optional}</code><br />
