@@ -355,7 +355,7 @@ func HandleGuildAuditLogEntryCreate(evt *eventsystem.EventData) (retry bool, err
 		}
 		return false, err
 	}
-	err = CreateModlogEmbed(config, &author.User, action, target, data.Reason, "")
+	err = CreateModlogEmbed(config, &author.User, action, target, data.Reason, "", 0, 0)
 	if err != nil {
 		logger.WithError(err).WithField("guild", data.GuildID).Error("Failed sending mod log entry.")
 		return false, err

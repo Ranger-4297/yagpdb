@@ -1056,7 +1056,7 @@ var ModerationCommands = []*commands.YAGCommand{
 					reason = fmt.Sprintf("%s\n~~%s~~", reason, warning.Message)
 				}
 				
-				err = CreateModlogEmbed(config, parsed.Author, MADelwarn, user, reason, "")
+				err = CreateModlogEmbed(config, parsed.Author, MADelwarn, user, reason, "", 0, 0)
 				if err != nil {
 					return "Failed sending modlog, warning deleted", err
 				}
@@ -1100,7 +1100,7 @@ var ModerationCommands = []*commands.YAGCommand{
 			}
 
 			reason := parsed.Args[1].Str()
-			err = CreateModlogEmbed(config, parsed.Author, MAClearWarnings, target, reason, "")
+			err = CreateModlogEmbed(config, parsed.Author, MAClearWarnings, target, reason, "", 0, 0)
 			if err != nil {
 				return "Failed sending modlog", err
 			}
@@ -1251,7 +1251,7 @@ var ModerationCommands = []*commands.YAGCommand{
 				if dur > 0 {
 					action.Footer = "Duration: " + common.HumanizeDuration(common.DurationPrecisionMinutes, dur)
 				}
-				CreateModlogEmbed(config, parsed.Author, action, target, "", "")
+				CreateModlogEmbed(config, parsed.Author, action, target, "", "", 0, 0)
 			}
 
 			return GenericCmdResp(action, target, dur, true, dur <= 0), nil
@@ -1309,7 +1309,7 @@ var ModerationCommands = []*commands.YAGCommand{
 			action := MARemoveRole
 			action.Prefix = "Removed the role " + role.Name + " from "
 			if config.GiveRoleCmdModlog && config.ActionChannel != 0 {
-				CreateModlogEmbed(config, parsed.Author, action, target, "", "")
+				CreateModlogEmbed(config, parsed.Author, action, target, "", "", 0, 0)
 			}
 
 			return GenericCmdResp(action, target, 0, true, true), nil

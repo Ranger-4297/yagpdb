@@ -41,7 +41,7 @@ var (
 	MAClearWarnings  = ModlogAction{Prefix: "Cleared warnings", Emoji: "👌", Color: 0x62c65f}
 )
 
-func CreateModlogEmbed(config *Config, author *discordgo.User, action ModlogAction, target *discordgo.User, reason, logLink string) error {
+func CreateModlogEmbed(config *Config, author *discordgo.User, action ModlogAction, target *discordgo.User, reason, logLink string, warningID int, channel int64) error {
 	channelID := config.ActionChannel
 	if channelID == 0 {
 		return nil
@@ -70,12 +70,8 @@ func CreateModlogEmbed(config *Config, author *discordgo.User, action ModlogActi
 			URL: discordgo.EndpointUserAvatar(target.ID, target.Avatar),
 		},
 		Color: action.Color,
-		Description: fmt.Sprintf("**%s%s** %s *(ID %d)*\n📄**Reason:** %s",
-			action.Emoji, action.Prefix, target.String(), target.ID, reason),
-	}
-
-	if logLink != "" {
-		embed.Description += " ([Logs](" + logLink + "))"
+		Description: fmt.Sprintf("<:TextChannel:800978104105304065>**Case:** %d\n<:Management:830120764807315477>**Who:** %s `(ID %d)`\n<:Metadata:830120764953985116>**Action:** %s\n<:Assetlibrary:830120146806767616>**Channel:** \n<:Manifest:830120146860245012>**Reason:** %s\n<:Edit:800978104272683038>**Logs:** [logs](%s)",
+			warningID, target.String(), target.ID, action.Prefix, reason, logLink),
 	}
 
 	if action.Footer != "" {

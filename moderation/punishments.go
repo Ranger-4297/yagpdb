@@ -182,7 +182,7 @@ func punish(config *Config, p Punishment, guildID int64, channel *dstate.Channel
 		}
 	}
 
-	err = CreateModlogEmbed(config, author, action, user, reason, logLink)
+	err = CreateModlogEmbed(config, author, action, user, reason, logLink, int(channelID), 0)
 	if err != nil {
 		logger.WithError(err).WithField("guild", gs.ID).Error("Failed creating mod log embed")
 	}
@@ -386,7 +386,7 @@ func UnbanUser(config *Config, guildID int64, author *discordgo.User, reason str
 	}
 
 	if config.LogUnbans {
-		err = CreateModlogEmbed(config, author, action, user, reason, "")
+		err = CreateModlogEmbed(config, author, action, user, reason, "", 0, 0)
 	}
 
 	logger.Infof("MODERATION: %s %s %s with reason %q", author.Username, action.Prefix, user.Username, reason)
@@ -421,7 +421,7 @@ func RemoveTimeout(config *Config, guildID int64, author *discordgo.User, reason
 	}
 
 	logger.Infof("MODERATION: %s %s %s cause %q", author.Username, action.Prefix, user.Username, reason)
-	err = CreateModlogEmbed(config, author, action, user, reason, "")
+	err = CreateModlogEmbed(config, author, action, user, reason, "",0 ,0)
 	return err
 }
 
@@ -582,7 +582,7 @@ func MuteUnmuteUser(config *Config, mute bool, guildID int64, channel *dstate.Ch
 	}
 
 	// Create the modlog entry
-	return CreateModlogEmbed(config, author, action, &member.User, reason, logLink)
+	return CreateModlogEmbed(config, author, action, &member.User, reason, logLink, 0, channelID)
 }
 
 func AddMemberMuteRole(config *Config, id int64, currentRoles []int64) (removedRoles []int64, err error) {
@@ -696,7 +696,7 @@ func WarnUser(config *Config, guildID int64, channel *dstate.ChannelState, msg *
 	}
 
 	if config.WarnSendToModlog && config.ActionChannel != 0 {
-		err = CreateModlogEmbed(config, author, MAWarned, target, message, warning.LogsLink.String)
+		err = CreateModlogEmbed(config, author, MAWarned, target, message, warning.LogsLink.String, int(warning.ID), channelID)
 		if err != nil {
 			return common.ErrWithCaller(err)
 		}
